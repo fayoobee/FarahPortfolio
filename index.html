@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Farah Ismail — Portfolio</title>
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root{
+      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:#f6f8fa;
+      --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb; --radius:14px;
+      --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
+    }
+    [data-theme="dark"]{
+      --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:#111823;
+      --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --shadow:none;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif}
+    header, main, footer{max-width:1080px;margin:auto;padding:24px}
+    header{position:sticky;top:0;background:color-mix(in oklab, var(--bg) 92%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;z-index:10}
+    nav a{margin-right:16px;color:inherit;text-decoration:none;opacity:.9}
+    nav a:hover{opacity:1}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);box-shadow:var(--shadow);cursor:pointer}
+    .btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+    .hero{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);min-height:320px}
+    .hero::before{content:'';position:absolute;inset:0;background: url('images/hero.jpg') center/cover no-repeat; filter:brightness(.8);}
+    .hero .inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:28px}
+    h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:8px 0 10px;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.35)}
+    .hero p{color:#e7eef7;text-shadow:0 2px 16px rgba(0,0,0,.35)}
+    .pill{border:1px solid var(--border);padding:2px 10px;border-radius:999px;font-size:12px;color:var(--muted);background:color-mix(in oklab, var(--bg) 80%, transparent)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);transition:transform .15s ease}
+    .card:hover{transform:translateY(-2px)}
+    .card img{width:100%;border-radius:10px;border:1px solid var(--border)}
+    footer{border-top:1px solid var(--border);color:var(--muted)}
+    a{color:var(--accent)}
+    #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;z-index:100}
+    #toTop{position:fixed;right:16px;bottom:16px;opacity:0;pointer-events:none;transition:.2s}
+    #toTop.show{opacity:1;pointer-events:auto}
+    .about{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
+    .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--bg);box-shadow:0 4px 16px rgba(0,0,0,.18)}
+  </style>
+</head>
+<body>
+  <div id="progress" aria-hidden="true"></div>
+  <header>
+    <div class="brand"><strong>Farah Ismail</strong></div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark mode">🌙 Dark</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Hero banner">
+      <div class="inner">
+        <div>
+          <span class="pill">Research • Design • Writing</span>
+          <h1>Hi, I’m Farah — I study minds and design stories.</h1>
+          <p>Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co‑Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</p>
+          <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <a class="btn primary" href="#work">See my work</a>
+            <a class="btn" href="docs/Farah-Ismail-Resume.pdf" target="_blank">Resume (PDF)</a>
+            <a class="btn" href="https://www.linkedin.com/in/farah-ismail-7497282a6/" target="_blank">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <h2>Selected Work</h2>
+      <div class="grid">
+        <article class="card">
+          <img src="images/projects/research.jpg" alt="Research teaser">
+          <h3>Understanding Children’s Reasoning About the Impact of Talking About Emotions on Sadness</h3>
+          <p><a href="https://www.canva.com/design/DAG0xZ-oYSo/jVPb_r8GLgvQXfkP74UW-w/view?utm_content=DAG0xZ-oYSo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaf00c801a" target="_blank">Presentation Slides</a> • <a href="https://www.canva.com/design/DAGxe9EFp2M/VhQ2TEmR0fPyW9L-2RPocQ/view?utm_content=DAGxe9EFp2M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13b16c56b1" target="_blank">Poster</a></p>
+        </article>
+        <article class="card">
+          <img src="images/projects/design.jpg" alt="Design poster">
+          <h3>Graphic Design Portfolio</h3>
+          <p><a href="https://www.canva.com/design/DAF73jJmzSQ/RVHi9BjMTPNMByjzxeR5ig/watch?utm_content=DAF73jJmzSQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6fabada764" target="_blank">View Portfolio</a></p>
+        </article>
+        <article class="card">
+          <img src="images/projects/photo.jpg" alt="Photography sample">
+          <h3>Photography & Videography</h3>
+          <p><a href="https://www.canva.com/design/DAGzna1SgDA/R9wMqSoKuYODI9FTzeN-7A/view?utm_content=DAGzna1SgDA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hac615a020a" target="_blank">View Works</a></p>
+        </article>
+        <article class="card">
+          <img src="images/projects/writing.jpg" alt="Poetry cover">
+          <h3>Poetry & Essays</h3>
+          <p><a href="https://medium.com/@farah.sameh.ismail" target="_blank">Visit Medium</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <div class="about">
+        <img class="avatar" src="images/avatar.jpg" alt="Farah profile photo">
+        <p>I’m a third‑year Psychology & CCIT student at the University of Toronto Mississauga. I split my free time between research (ChiLD Lab), creative design (UTMMSA), teaching Arabic as a second language to my kindergarten class, and writing. I love turning messy ideas into clean visuals and building simple tools that help students feel calm, capable, and creative!</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:farah.sameh.ismail@gmail.com">farah.sameh.ismail@gmail.com</a> · Phone: <a href="tel:+16472716147">(647) 271‑6147</a> · LinkedIn: <a target="_blank" href="https://www.linkedin.com/in/farah-ismail-7497282a6/">/farah-ismail</a></p>
+    </section>
+  </main>
+
+  <footer><small>© <span id="year"></span> Farah Ismail</small></footer>
+  <button id="toTop" class="btn" aria-label="Back to top">↑ Top</button>
+
+<script>
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Theme toggle with persistence
+  (function(){
+    const key='theme', html=document.documentElement, btn=document.getElementById('themeToggle');
+    const saved=localStorage.getItem(key);
+    if(saved && saved!=='system') html.setAttribute('data-theme', saved);
+    function label(){ const dark=html.getAttribute('data-theme')==='dark'; btn.textContent=dark?'☀️ Light':'🌙 Dark'; btn.setAttribute('aria-pressed', dark); }
+    btn.addEventListener('click',()=>{ const cur=html.getAttribute('data-theme'); const next=cur==='dark'?'light':'dark'; html.setAttribute('data-theme', next); localStorage.setItem(key,next); label(); });
+    label();
+  })();
+
+  // Progress bar + back-to-top
+  (function(){
+    const bar=document.getElementById('progress'); const toTop=document.getElementById('toTop');
+    function onScroll(){ const h=document.documentElement; const sc=h.scrollTop; const max=h.scrollHeight-h.clientHeight; if(bar) bar.style.width=((sc/max)*100)+'%'; if(sc>500) toTop.classList.add('show'); else toTop.classList.remove('show'); }
+    addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+  })();
+</script>
+</body>
+</html>
