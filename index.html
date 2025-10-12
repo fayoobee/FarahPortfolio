@@ -4,46 +4,87 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Farah Ismail — Portfolio</title>
+  <meta name="description" content="Farah Ismail — Psychology & CCIT @ UTM. Research, design, and writing that turns messy ideas into clean visuals and simple tools.">
+  <link rel="canonical" href="https://example.com/">
   <meta name="color-scheme" content="light dark">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Farah Ismail — Portfolio">
+  <meta property="og:description" content="Research • Design • Writing">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/hero.jpg">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Farah Ismail — Portfolio">
+  <meta name="twitter:description" content="Research • Design • Writing">
+  <meta name="twitter:image" content="images/hero.jpg">
+  <!-- Preload hero for faster paint -->
+  <link rel="preload" as="image" href="images/hero.jpg" imagesrcset="images/hero.jpg 1200w" imagesizes="100vw">
   <style>
     :root{
       --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:#f6f8fa;
       --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb; --radius:14px;
       --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
+      --hero-overlay: color-mix(in oklab, #000 28%, transparent);
     }
     [data-theme="dark"]{
       --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:#111823;
       --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --shadow:none;
+      --hero-overlay: color-mix(in oklab, #000 45%, transparent);
     }
     *{box-sizing:border-box}
+    html:focus-within{scroll-behavior:smooth}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif}
     header, main, footer{max-width:1080px;margin:auto;padding:24px}
     header{position:sticky;top:0;background:color-mix(in oklab, var(--bg) 92%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;z-index:10}
     nav a{margin-right:16px;color:inherit;text-decoration:none;opacity:.9}
-    nav a:hover{opacity:1}
+    nav a:hover, nav a:focus-visible{opacity:1}
     a{color:var(--accent)}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);box-shadow:var(--shadow);cursor:pointer;color:var(--text)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);box-shadow:var(--shadow);cursor:pointer;color:var(--text);text-decoration:none}
     .btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
-    .hero{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);min-height:320px}
-    .hero::before{content:'';position:absolute;inset:0;background:url('images/hero.jpg') center/cover no-repeat;filter:brightness(.85)}
-    [data-theme="dark"] .hero::before{filter:brightness(.6)}
+    .btn:focus-visible{outline:3px solid var(--accent-2); outline-offset:2px}
+    .hero{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);min-height:320px;isolation:isolate}
+    .hero::before{content:'';position:absolute;inset:0;background:url('images/hero.jpg') center/cover no-repeat;filter:brightness(.9)}
+    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, var(--hero-overlay), transparent 40%, var(--hero-overlay));mix-blend:normal}
     .hero .inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:28px}
     h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:8px 0 10px;color:var(--text);text-shadow:0 2px 16px rgba(0,0,0,.25)}
-    .hero p{color:var(--text);text-shadow:0 2px 16px rgba(0,0,0,.2)}
+    .hero p{color:var(--text);text-shadow:0 2px 16px rgba(0,0,0,.18)}
     .pill{border:1px solid var(--border);padding:2px 10px;border-radius:999px;font-size:12px;color:var(--muted);background:color-mix(in oklab, var(--bg) 80%, transparent)}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);transition:transform .15s ease;color:var(--text)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);transition:transform .15s ease,color .15s ease}
     .card:hover{transform:translateY(-2px)}
     .card img{width:100%;border-radius:10px;border:1px solid var(--border)}
+    .card h3{margin:10px 0 6px}
     footer{border-top:1px solid var(--border);color:var(--muted)}
     #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;z-index:100}
     #toTop{position:fixed;right:16px;bottom:16px;opacity:0;pointer-events:none;transition:.2s}
     #toTop.show{opacity:1;pointer-events:auto}
     .about{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
     .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--bg);box-shadow:0 4px 16px rgba(0,0,0,.18)}
+    /* Skip link */
+    .skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{left:16px;top:16px;width:auto;height:auto;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:10px;z-index:999}
+    /* Respect Reduced Motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important;transition:none!important}
+      html:focus-within{scroll-behavior:auto}
+    }
   </style>
+  <script>
+    // Prefer system theme on first visit; then persist user choice.
+    (function(){
+      var key='theme';
+      if(!localStorage.getItem(key)){
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if(prefersDark) document.documentElement.setAttribute('data-theme','dark');
+      } else {
+        var saved = localStorage.getItem(key);
+        if(saved && saved!=='system') document.documentElement.setAttribute('data-theme', saved);
+      }
+    })();
+  </script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <div id="progress" aria-hidden="true"></div>
   <header>
     <div class="brand"><strong>Farah Ismail</strong></div>
@@ -55,7 +96,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero" aria-label="Hero banner">
       <div class="inner">
         <div>
@@ -64,35 +105,36 @@
           <p>Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co-Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</p>
           <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
             <a class="btn primary" href="#work">See my work</a>
-            <a class="btn" href="FARAH ISMAIL RESUME GENERAL.pdf" target="_blank">Resume (PDF)</a>
-            <a class="btn" href="https://www.linkedin.com/in/farah-ismail-7497282a6/" target="_blank">LinkedIn</a>
+            <!-- Keep your current resume file name; change here if you move it into /docs -->
+            <a class="btn" href="FARAH ISMAIL RESUME GENERAL.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+            <a class="btn" href="https://www.linkedin.com/in/farah-ismail-7497282a6/" target="_blank" rel="noopener">LinkedIn</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="work">
+    <section id="work" aria-label="Selected Work">
       <h2>Selected Work</h2>
       <div class="grid">
         <article class="card">
-          <img src="research.jpg" alt="Research teaser">
+          <img loading="lazy" src="research.jpg" alt="Research poster and slides preview">
           <h3>Understanding Children’s Reasoning About the Impact of Talking About Emotions on Sadness</h3>
-          <p><a href="https://www.canva.com/design/DAG0xZ-oYSo/jVPb_r8GLgvQXfkP74UW-w/view?utm_content=DAG0xZ-oYSo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaf00c801a" target="_blank">Presentation Slides</a> • <a href="https://www.canva.com/design/DAGxe9EFp2M/VhQ2TEmR0fPyW9L-2RPocQ/view?utm_content=DAGxe9EFp2M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13b16c56b1" target="_blank">Poster</a></p>
+          <p><a href="https://www.canva.com/design/DAG0xZ-oYSo/jVPb_r8GLgvQXfkP74UW-w/view?utm_content=DAG0xZ-oYSo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaf00c801a" target="_blank" rel="noopener">Presentation Slides</a> • <a href="https://www.canva.com/design/DAGxe9EFp2M/VhQ2TEmR0fPyW9L-2RPocQ/view?utm_content=DAGxe9EFp2M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13b16c56b1" target="_blank" rel="noopener">Poster</a></p>
         </article>
         <article class="card">
-          <img src="design.jpg" alt="Design poster">
+          <img loading="lazy" src="design.jpg" alt="Graphic design poster sample">
           <h3>Graphic Design Portfolio</h3>
-          <p><a href="https://www.canva.com/design/DAF73jJmzSQ/RVHi9BjMTPNMByjzxeR5ig/watch?utm_content=DAF73jJmzSQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6fabada764" target="_blank">View Portfolio</a></p>
+          <p><a href="https://www.canva.com/design/DAF73jJmzSQ/RVHi9BjMTPNMByjzxeR5ig/watch?utm_content=DAF73jJmzSQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6fabada764" target="_blank" rel="noopener">View Portfolio</a></p>
         </article>
         <article class="card">
-          <img src="photo.jpg" alt="Photography sample">
+          <img loading="lazy" src="photo.jpg" alt="Photography still">
           <h3>Photography & Videography</h3>
-          <p><a href="https://www.canva.com/design/DAGzna1SgDA/R9wMqSoKuYODI9FTzeN-7A/view?utm_content=DAGzna1SgDA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hac615a020a" target="_blank">View Works</a></p>
+          <p><a href="https://www.canva.com/design/DAGzna1SgDA/R9wMqSoKuYODI9FTzeN-7A/view?utm_content=DAGzna1SgDA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hac615a020a" target="_blank" rel="noopener">View Works</a></p>
         </article>
         <article class="card">
-          <img src="writing.jpg" alt="Poetry cover">
-          <h3>Poetry & Essays</h3>
-          <p><a href="https://medium.com/@farah.sameh.ismail" target="_blank">Visit Medium</a></p>
+          <img loading="lazy" src="iwriting.jpg" alt="Poetry and writing mock cover">
+          <h3>Poetry & Writing</h3>
+          <p><a href="https://medium.com/@farah.sameh.ismail" target="_blank" rel="noopener">Visit Medium</a></p>
         </article>
       </div>
     </section>
@@ -107,7 +149,7 @@
 
     <section id="contact">
       <h2>Contact</h2>
-      <p>Email: <a href="mailto:farah.sameh.ismail@gmail.com">farah.sameh.ismail@gmail.com</a> · Phone: <a href="tel:+16472716147">(647) 271-6147</a> · LinkedIn: <a target="_blank" href="https://www.linkedin.com/in/farah-ismail-7497282a6/">/farah-ismail</a></p>
+      <p>Email: <a href="mailto:farah.sameh.ismail@gmail.com">farah.sameh.ismail@gmail.com</a> · Phone: <a href="tel:+16472716147">(647) 271-6147</a> · LinkedIn: <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/farah-ismail-7497282a6/">/farah-ismail</a></p>
     </section>
   </main>
 
@@ -118,23 +160,48 @@
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Theme toggle with persistence
+  // Theme toggle with persistence (pairs with the <head> system preference init)
   (function(){
     const key='theme', html=document.documentElement, btn=document.getElementById('themeToggle');
-    const saved=localStorage.getItem(key);
-    if(saved && saved!=='system') html.setAttribute('data-theme', saved);
-    function label(){ const dark=html.getAttribute('data-theme')==='dark'; btn.textContent=dark?'☀️ Light':'🌙 Dark'; btn.setAttribute('aria-pressed', dark); }
-    btn.addEventListener('click',()=>{ const cur=html.getAttribute('data-theme'); const next=cur==='dark'?'light':'dark'; html.setAttribute('data-theme', next); localStorage.setItem(key,next); label(); });
+    function label(){
+      const dark = html.getAttribute('data-theme')==='dark';
+      btn.textContent = dark ? '☀️ Light' : '🌙 Dark';
+      btn.setAttribute('aria-pressed', dark);
+    }
+    btn.addEventListener('click',()=>{
+      const cur=html.getAttribute('data-theme')|| (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light');
+      const next=cur==='dark'?'light':'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem(key,next);
+      label();
+    });
     label();
   })();
 
   // Progress bar + back-to-top
   (function(){
     const bar=document.getElementById('progress'); const toTop=document.getElementById('toTop');
-    function onScroll(){ const h=document.documentElement; const sc=h.scrollTop; const max=h.scrollHeight-h.clientHeight; if(bar) bar.style.width=((sc/max)*100)+'%'; if(sc>500) toTop.classList.add('show'); else toTop.classList.remove('show'); }
+    function onScroll(){
+      const h=document.documentElement; const sc=h.scrollTop; const max=h.scrollHeight-h.clientHeight;
+      if(bar) bar.style.width=((sc/max)*100)+'%';
+      if(sc>500) toTop.classList.add('show'); else toTop.classList.remove('show');
+    }
     addEventListener('scroll', onScroll, {passive:true}); onScroll();
     toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
   })();
+</script>
+
+<!-- Structured data for richer search results -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Farah Ismail",
+  "url":"https://example.com",
+  "sameAs":["https://www.linkedin.com/in/farah-ismail-7497282a6/"],
+  "jobTitle":"Student, Research Assistant",
+  "affiliation":{"@type":"CollegeOrUniversity","name":"University of Toronto Mississauga"}
+}
 </script>
 </body>
 </html>
