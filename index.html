@@ -11,74 +11,152 @@
   <meta property="og:title" content="Farah Ismail — Portfolio">
   <meta property="og:description" content="Research • Design • Writing">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="images/hero.jpg">
+  <meta property="og:image" content="hero.jpg">
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Farah Ismail — Portfolio">
   <meta name="twitter:description" content="Research • Design • Writing">
-  <meta name="twitter:image" content="images/hero.jpg">
+  <meta name="twitter:image" content="hero.jpg">
   <!-- Preload hero for faster paint -->
-  <link rel="preload" as="image" href="images/hero.jpg" imagesrcset="images/hero.jpg 1200w" imagesizes="100vw">
+  <link rel="preload" as="image" href="hero.jpg" imagesrcset="hero.jpg 1200w" imagesizes="100vw">
   <style>
     :root{
-      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:#f6f8fa;
+      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.75);
       --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb; --radius:14px;
       --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
       --hero-overlay: color-mix(in oklab, #000 28%, transparent);
+      --blur: 10px;
     }
     [data-theme="dark"]{
-      --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:#111823;
+      --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:rgba(17,24,35,.6);
       --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --shadow:none;
       --hero-overlay: color-mix(in oklab, #000 45%, transparent);
+      --blur: 8px;
     }
+    /* Accent variants */
+    [data-accent="blue"]{ --accent:#6b7cff; --accent-2:#59d0a0; }
+    [data-accent="purple"]{ --accent:#a779ff; --accent-2:#ff8ac7; }
+    [data-accent="teal"]{ --accent:#2ec4b6; --accent-2:#6ee7b7; }
+
     *{box-sizing:border-box}
     html:focus-within{scroll-behavior:smooth}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif}
+
     header, main, footer{max-width:1080px;margin:auto;padding:24px}
-    header{position:sticky;top:0;background:color-mix(in oklab, var(--bg) 92%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;z-index:10}
+    header{
+      position:sticky; top:0; z-index:10;
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      transition: box-shadow .2s ease;
+    }
+    header.scrolled{ box-shadow: 0 6px 24px rgba(0,0,0,.08); }
+
     nav a{margin-right:16px;color:inherit;text-decoration:none;opacity:.9}
     nav a:hover, nav a:focus-visible{opacity:1}
+
     a{color:var(--accent)}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);box-shadow:var(--shadow);cursor:pointer;color:var(--text);text-decoration:none}
-    .btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
-    .btn:focus-visible{outline:3px solid var(--accent-2); outline-offset:2px}
-    .hero{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border);min-height:320px;isolation:isolate}
-    .hero::before{content:'';position:absolute;inset:0;background:url('images/hero.jpg') center/cover no-repeat;filter:brightness(.9)}
-    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, var(--hero-overlay), transparent 40%, var(--hero-overlay));mix-blend:normal}
-    .hero .inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:28px}
-    h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:8px 0 10px;color:var(--text);text-shadow:0 2px 16px rgba(0,0,0,.25)}
-    .hero p{color:var(--text);text-shadow:0 2px 16px rgba(0,0,0,.18)}
-    .pill{border:1px solid var(--border);padding:2px 10px;border-radius:999px;font-size:12px;color:var(--muted);background:color-mix(in oklab, var(--bg) 80%, transparent)}
-    /* ==== Selected Work layout: 2 rows, 2 columns ==== */
-    #work .grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(260px,1fr));
-      gap:16px;
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:999px;
+      border:1px solid var(--border); background:var(--card);
+      backdrop-filter: blur(var(--blur));
+      box-shadow:var(--shadow); cursor:pointer; color:var(--text);
+      text-decoration:none; transition: transform .15s ease, background .15s ease;
     }
-    @media (max-width: 720px){
-      #work .grid{ grid-template-columns:1fr; }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{ background:var(--text); color:var(--bg); border-color:var(--text) }
+    .btn:focus-visible{ outline:3px solid var(--accent-2); outline-offset:2px }
+
+    .hero{
+      position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--border);
+      min-height:360px; isolation:isolate;
     }
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);transition:transform .15s ease,color .15s ease}
-    .card:hover{transform:translateY(-2px)}
-    .card img{width:100%;border-radius:10px;border:1px solid var(--border)}
-    .card h3{margin:10px 0 6px}
-    footer{border-top:1px solid var(--border);color:var(--muted)}
-    #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;z-index:100}
-    #toTop{position:fixed;right:16px;bottom:16px;opacity:0;pointer-events:none;transition:.2s}
-    #toTop.show{opacity:1;pointer-events:auto}
-    .about{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
-    .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--bg);box-shadow:0 4px 16px rgba(0,0,0,.18)}
+    .hero::before{
+      content:''; position:absolute; inset:0;
+      background:url('hero.jpg') center/cover no-repeat; filter:brightness(.9);
+    }
+    .hero::after{
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(180deg, var(--hero-overlay), transparent 45%, var(--hero-overlay));
+      mix-blend:normal;
+    }
+    .hero .inner{
+      position:relative; z-index:1;
+      display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center; padding:28px;
+    }
+    h1{font-size:clamp(28px,4vw,44px); line-height:1.1; margin:8px 0 10px; color:var(--text); text-shadow:0 2px 16px rgba(0,0,0,.25)}
+    .hero p{color:var(--text); text-shadow:0 2px 16px rgba(0,0,0,.18)}
+    .pill{
+      border:1px solid var(--border); padding:2px 10px; border-radius:999px; font-size:12px;
+      color:var(--muted); background:color-mix(in oklab, var(--bg) 80%, transparent)
+    }
+
+    /* ==== Selected Work layout: 2 rows, 2 columns (fixed pairing) ==== */
+    #work .grid{ display:grid; grid-template-columns:repeat(2, minmax(260px,1fr)); gap:16px; }
+    @media (max-width: 720px){ #work .grid{ grid-template-columns:1fr; } }
+
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px;
+      box-shadow:var(--shadow); transition: transform .25s ease, box-shadow .25s ease, opacity .4s ease;
+      opacity:0; transform: translateY(8px); /* initial for reveal */
+      backdrop-filter: blur(var(--blur));
+    }
+    .card.revealed{ opacity:1; transform: translateY(0); }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+    .card img{ width:100%; border-radius:10px; border:1px solid var(--border) }
+    .card h3{ margin:10px 0 6px }
+
+    /* Section divider */
+    .divider{
+      height:1px; margin:28px 0;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    footer{ border-top:1px solid var(--border); color:var(--muted) }
+
+    /* Progress & back-to-top */
+    #progress{ position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); width:0; z-index:100 }
+    #toTop{ position:fixed; right:16px; bottom:16px; opacity:0; pointer-events:none; transition:.2s }
+    #toTop.show{ opacity:1; pointer-events:auto }
+
+    .about{ display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center }
+    .avatar{ width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid var(--bg); box-shadow:0 4px 16px rgba(0,0,0,.18) }
+
+    /* Control strip (accent colors) */
+    .controls{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+    .dot{
+      width:28px; height:28px; border-radius:999px; border:1px solid var(--border); cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; font-size:14px; background:var(--card);
+      backdrop-filter: blur(var(--blur));
+    }
+    .dot[aria-pressed="true"]{ outline:2px solid var(--accent-2) }
+
     /* Skip link */
     .skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip:focus{left:16px;top:16px;width:auto;height:auto;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:10px;z-index:999}
+
+    /* Toast */
+    #toast{
+      position: fixed; left:50%; bottom:24px; transform: translateX(-50%) translateY(12px);
+      background: var(--card); color: var(--text); border:1px solid var(--border);
+      padding:10px 14px; border-radius:999px; box-shadow:var(--shadow);
+      opacity:0; pointer-events:none; transition: opacity .2s ease, transform .2s ease;
+      backdrop-filter: blur(var(--blur)); z-index:200;
+    }
+    #toast.show{ opacity:1; transform: translateX(-50%) translateY(0) }
+
     /* Reduced Motion */
     @media (prefers-reduced-motion: reduce){
       *{animation:none!important;transition:none!important}
       html:focus-within{scroll-behavior:auto}
+      .card{opacity:1!important; transform:none!important}
     }
   </style>
+
+  <!-- Prefer system theme on first visit; then persist user choice. -->
   <script>
-    // Prefer system theme on first visit; then persist user choice.
     (function(){
       var key='theme';
       if(!localStorage.getItem(key)){
@@ -88,6 +166,9 @@
         var saved = localStorage.getItem(key);
         if(saved && saved!=='system') document.documentElement.setAttribute('data-theme', saved);
       }
+      // Accent preference
+      var akey='accent', savedAccent=localStorage.getItem(akey) || 'blue';
+      document.documentElement.setAttribute('data-accent', savedAccent);
     })();
   </script>
 </head>
@@ -100,7 +181,13 @@
       <a href="#work">Work</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-      <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark mode">🌙 Dark</button>
+      <div class="controls" aria-label="Quick settings">
+        <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark mode">🌙 Dark</button>
+        <span class="pill">Accent:</span>
+        <button class="dot" data-accent="blue" aria-pressed="true" title="Blue">●</button>
+        <button class="dot" data-accent="purple" aria-pressed="false" title="Purple">●</button>
+        <button class="dot" data-accent="teal" aria-pressed="false" title="Teal">●</button>
+      </div>
     </nav>
   </header>
 
@@ -120,34 +207,38 @@
       </div>
     </section>
 
+    <div class="divider" aria-hidden="true"></div>
+
     <section id="work" aria-label="Selected Work">
       <h2>Selected Work</h2>
       <div class="grid">
         <!-- Row 1: Research + Poetry & Writing -->
-        <article class="card">
+        <article class="card reveal">
           <img loading="lazy" src="research.jpg" alt="Research poster and slides preview">
-          <h3>My research</h3>
+          <h3>My Research</h3>
           <p><a href="https://www.canva.com/design/DAG0xZ-oYSo/jVPb_r8GLgvQXfkP74UW-w/view?utm_content=DAG0xZ-oYSo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaf00c801a" target="_blank" rel="noopener">Presentation Slides</a> • <a href="https://www.canva.com/design/DAGxe9EFp2M/VhQ2TEmR0fPyW9L-2RPocQ/view?utm_content=DAGxe9EFp2M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13b16c56b1" target="_blank" rel="noopener">Poster</a></p>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <img loading="lazy" src="writing.jpg" alt="Poetry and writing mock cover">
           <h3>Poetry & Writing</h3>
           <p><a href="https://medium.com/@farah.sameh.ismail" target="_blank" rel="noopener">Visit Medium</a></p>
         </article>
 
         <!-- Row 2: Graphic Design + Photography -->
-        <article class="card">
+        <article class="card reveal">
           <img loading="lazy" src="design.jpg" alt="Graphic design poster sample">
           <h3>Graphic Design Portfolio</h3>
           <p><a href="https://www.canva.com/design/DAF73jJmzSQ/RVHi9BjMTPNMByjzxeR5ig/watch?utm_content=DAF73jJmzSQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6fabada764" target="_blank" rel="noopener">View Portfolio</a></p>
         </article>
-        <article class="card">
+        <article class="card reveal">
           <img loading="lazy" src="photo.jpg" alt="Photography still">
           <h3>Photography & Videography</h3>
           <p><a href="https://www.canva.com/design/DAGzna1SgDA/R9wMqSoKuYODI9FTzeN-7A/view?utm_content=DAGzna1SgDA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hac615a020a" target="_blank" rel="noopener">View Works</a></p>
         </article>
       </div>
     </section>
+
+    <div class="divider" aria-hidden="true"></div>
 
     <section id="about">
       <h2>About</h2>
@@ -159,18 +250,40 @@
 
     <section id="contact">
       <h2>Contact</h2>
-      <p>Email: <a href="mailto:farah.sameh.ismail@gmail.com">farah.sameh.ismmail@gmail.com</a> · Phone: <a href="tel:+16472716147">(647) 271-6147</a> · LinkedIn: <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/farah-ismail-7497282a6/">/farah-ismail</a></p>
+      <p>
+        Email: <a id="emailLink" href="mailto:farah.sameh.ismail@gmail.com">farah.sameh.ismail@gmail.com</a>
+        <button class="btn" id="copyEmail" aria-label="Copy email">Copy</button>
+        · Phone: <a id="phoneLink" href="tel:+16472716147">(647) 271-6147</a>
+        <button class="btn" id="copyPhone" aria-label="Copy phone">Copy</button>
+        · LinkedIn: <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/farah-ismail-7497282a6/">/farah-ismail</a>
+      </p>
     </section>
   </main>
 
   <footer><small>© <span id="year"></span> Farah Ismail</small></footer>
   <button id="toTop" class="btn" aria-label="Back to top">↑ Top</button>
+  <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Theme toggle with persistence (pairs with the <head> system preference init)
+  // Header shadow on scroll + progress + back-to-top
+  (function(){
+    const header=document.querySelector('header');
+    const bar=document.getElementById('progress');
+    const toTop=document.getElementById('toTop');
+    function onScroll(){
+      const h=document.documentElement; const sc=h.scrollTop; const max=h.scrollHeight-h.clientHeight;
+      header.classList.toggle('scrolled', sc>4);
+      if(bar) bar.style.width=((sc/max)*100)+'%';
+      if(sc>500) toTop.classList.add('show'); else toTop.classList.remove('show');
+    }
+    addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+  })();
+
+  // Theme toggle with persistence
   (function(){
     const key='theme', html=document.documentElement, btn=document.getElementById('themeToggle');
     function label(){
@@ -188,20 +301,56 @@
     label();
   })();
 
-  // Progress bar + back-to-top
+  // Accent color switcher
   (function(){
-    const bar=document.getElementById('progress'); const toTop=document.getElementById('toTop');
-    function onScroll(){
-      const h=document.documentElement; const sc=h.scrollTop; const max=h.scrollHeight-h.clientHeight;
-      if(bar) bar.style.width=((sc/max)*100)+'%';
-      if(sc>500) toTop.classList.add('show'); else toTop.classList.remove('show');
+    const akey='accent', html=document.documentElement;
+    const dots=[...document.querySelectorAll('.dot[data-accent]')];
+    const saved=localStorage.getItem(akey)||html.getAttribute('data-accent')||'blue';
+    function update(active){
+      html.setAttribute('data-accent', active);
+      localStorage.setItem(akey, active);
+      dots.forEach(d=>d.setAttribute('aria-pressed', d.dataset.accent===active ? 'true':'false'));
     }
-    addEventListener('scroll', onScroll, {passive:true}); onScroll();
-    toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+    update(saved);
+    dots.forEach(d=>d.addEventListener('click',()=>update(d.dataset.accent)));
+  })();
+
+  // Card reveal on scroll (IntersectionObserver)
+  (function(){
+    const revealables=[...document.querySelectorAll('.card.reveal')];
+    if(!('IntersectionObserver' in window)){ revealables.forEach(r=>r.classList.add('revealed')); return; }
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('revealed');
+          obs.unobserve(e.target);
+        }
+      });
+    }, {threshold:.12});
+    revealables.forEach(r=>obs.observe(r));
+  })();
+
+  // Copy email/phone with tiny toast
+  (function(){
+    const toast=document.getElementById('toast');
+    function showToast(msg){
+      toast.textContent=msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 1400);
+    }
+    function copyText(txt){
+      navigator.clipboard.writeText(txt).then(()=>showToast('Copied to clipboard'));
+    }
+    document.getElementById('copyEmail').addEventListener('click',()=>{
+      copyText('farah.sameh.ismail@gmail.com');
+    });
+    document.getElementById('copyPhone').addEventListener('click',()=>{
+      copyText('+1 647-271-6147');
+    });
   })();
 </script>
 
-<!-- Structured data for richer search results -->
+<!-- Structured data -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
