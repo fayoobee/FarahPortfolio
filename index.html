@@ -24,13 +24,15 @@
       --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.75);
       --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb; --radius:14px;
       --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
-      --hero-overlay: color-mix(in oklab, #000 28%, transparent);
+      /* stronger overlay in light mode */
+      --hero-overlay: color-mix(in oklab, #000 40%, transparent);
       --blur: 10px;
     }
     [data-theme="dark"]{
       --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:rgba(17,24,35,.6);
       --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --shadow:none;
-      --hero-overlay: color-mix(in oklab, #000 45%, transparent);
+      /* even stronger overlay in dark mode */
+      --hero-overlay: color-mix(in oklab, #000 60%, transparent);
       --blur: 8px;
     }
     /* Accent variants */
@@ -75,7 +77,9 @@
     }
     .hero::before{
       content:''; position:absolute; inset:0;
-      background:url('heropic.jpg') center/cover no-repeat; filter:brightness(.9);
+      background:url('heropic.jpg') center/cover no-repeat;
+      /* darker image = lower transparency */
+      filter:brightness(.6);
     }
     .hero::after{
       content:''; position:absolute; inset:0;
@@ -93,36 +97,14 @@
       color:var(--muted); background:color-mix(in oklab, var(--bg) 80%, transparent)
     }
 
-    /* >>> refined underline highlight (subtle, non-overlapping) */
-    .hl{
-      background:
-        linear-gradient(
-          to top,
-          color-mix(in oklab, var(--bg) 70%, transparent) 0.55em,
-          transparent 0.55em
-        );
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
-      padding:0 .05em; /* tiny side padding only */
-      border-radius:.12rem; /* micro rounding on the underline edge */
-    }
-    [data-theme="dark"] .hl{
-      background:
-        linear-gradient(
-          to top,
-          color-mix(in oklab, #000 55%, transparent) 0.55em,
-          transparent 0.55em
-        );
-    }
-
-    /* ==== Selected Work layout: 2 rows, 2 columns (fixed pairing) ==== */
+    /* Selected Work: 2 rows, 2 columns */
     #work .grid{ display:grid; grid-template-columns:repeat(2, minmax(260px,1fr)); gap:16px; }
     @media (max-width: 720px){ #work .grid{ grid-template-columns:1fr; } }
 
     .card{
       background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px;
       box-shadow:var(--shadow); transition: transform .25s ease, box-shadow .25s ease, opacity .4s ease;
-      opacity:0; transform: translateY(8px); /* initial for reveal */
+      opacity:0; transform: translateY(8px);
       backdrop-filter: blur(var(--blur));
     }
     .card.revealed{ opacity:1; transform: translateY(0); }
@@ -130,15 +112,10 @@
     .card img{ width:100%; border-radius:10px; border:1px solid var(--border) }
     .card h3{ margin:10px 0 6px }
 
-    /* Section divider */
-    .divider{
-      height:1px; margin:28px 0;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-    }
+    .divider{ height:1px; margin:28px 0; background: linear-gradient(90deg, transparent, var(--border), transparent); }
 
     footer{ border-top:1px solid var(--border); color:var(--muted) }
 
-    /* Progress & back-to-top */
     #progress{ position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); width:0; z-index:100 }
     #toTop{ position:fixed; right:16px; bottom:16px; opacity:0; pointer-events:none; transition:.2s }
     #toTop.show{ opacity:1; pointer-events:auto }
@@ -146,7 +123,6 @@
     .about{ display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center }
     .avatar{ width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid var(--bg); box-shadow:0 4px 16px rgba(0,0,0,.18) }
 
-    /* Control strip (accent colors) */
     .controls{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
     .dot{
       width:28px; height:28px; border-radius:999px; border:1px solid var(--border); cursor:pointer;
@@ -155,11 +131,9 @@
     }
     .dot[aria-pressed="true"]{ outline:2px solid var(--accent-2) }
 
-    /* Skip link */
     .skip{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip:focus{left:16px;top:16px;width:auto;height:auto;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:10px;z-index:999}
 
-    /* Toast */
     #toast{
       position: fixed; left:50%; bottom:24px; transform: translateX(-50%) translateY(12px);
       background: var(--card); color: var(--text); border:1px solid var(--border);
@@ -169,7 +143,6 @@
     }
     #toast.show{ opacity:1; transform: translateX(-50%) translateY(0) }
 
-    /* Reduced Motion */
     @media (prefers-reduced-motion: reduce){
       *{animation:none!important;transition:none!important}
       html:focus-within{scroll-behavior:auto}
@@ -218,8 +191,8 @@
       <div class="inner">
         <div>
           <span class="pill">Research • Design • Writing</span>
-          <h1><span class="hl">Hi, I’m Farah — I study minds and design stories.</span></h1>
-          <p><span class="hl">Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co-Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</span></p>
+          <h1>Hi, I’m Farah — I study minds and design stories.</h1>
+          <p>Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co-Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</p>
           <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
             <a class="btn primary" href="#work">See my work</a>
             <a class="btn" href="FARAH ISMAIL RESUME GENERAL.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
