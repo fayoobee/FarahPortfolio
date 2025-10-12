@@ -11,34 +11,30 @@
   <meta property="og:title" content="Farah Ismail — Portfolio">
   <meta property="og:description" content="Research • Design • Writing">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="heropic.jpg">
+  <meta property="og:image" content="social-card.jpg">
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Farah Ismail — Portfolio">
   <meta name="twitter:description" content="Research • Design • Writing">
-  <meta name="twitter:image" content="heropic.jpg">
-  <!-- Preload a hero fallback (browser will still choose better via image-set if available) -->
-  <link rel="preload" as="image" href="heropic.jpg" imagesrcset="heropic.jpg 1x, heropic@2x.jpg 2x" imagesizes="100vw">
+  <meta name="twitter:image" content="social-card.jpg">
 
   <style>
-    /* ====== THEME PALETTES ====== */
+    /* ====== THEMES ====== */
     :root{
-      /* Dark palette (default) */
-      --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:rgba(17,24,35,.6);
-      --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --radius:14px;
-      --shadow:none;
-      /* HERO OVERLAY: dark tint for dark theme to keep text readable */
-      --hero-overlay: color-mix(in oklab, #000 36%, transparent);
-      --blur: 8px;
+      --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:rgba(17,24,35,.55);
+      --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430;
+      --radius:14px; --shadow:none; --blur:10px;
+      --glass: color-mix(in oklab, var(--bg) 70%, transparent);
+      --hero-grad-1:#0b0f14; --hero-grad-2:#152337; --hero-vignette:rgba(0,0,0,.45);
+      --noise-opacity:.055;
     }
     [data-theme="light"]{
-      /* Light palette */
-      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.75);
+      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.7);
       --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb;
       --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
-      /* HERO OVERLAY: soft white lift so photo looks airy in light mode */
-      --hero-overlay: color-mix(in oklab, #fff 38%, transparent);
-      --blur: 10px;
+      --glass: color-mix(in oklab, var(--bg) 65%, transparent);
+      --hero-grad-1:#f7fafc; --hero-grad-2:#eaf1ff; --hero-vignette:rgba(255,255,255,.55);
+      --noise-opacity:.035;
     }
 
     /* Accent variants */
@@ -52,87 +48,91 @@
 
     header, main, footer{max-width:1080px;margin:auto;padding:24px}
     header{
-      position:sticky; top:0; z-index:10;
+      position:sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between;
       background: color-mix(in oklab, var(--bg) 85%, transparent);
       backdrop-filter: blur(8px);
       border-bottom:1px solid var(--border);
-      display:flex; align-items:center; justify-content:space-between;
       transition: box-shadow .2s ease;
     }
     header.scrolled{ box-shadow: 0 6px 24px rgba(0,0,0,.08); }
-
     nav a{margin-right:16px;color:inherit;text-decoration:none;opacity:.9}
     nav a:hover, nav a:focus-visible{opacity:1}
-
     a{color:var(--accent)}
+
     .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 14px; border-radius:999px;
-      border:1px solid var(--border); background:var(--card);
+      display:inline-flex; align-items:center; gap:8px; padding:10px 14px;
+      border-radius:999px; border:1px solid var(--border); background:var(--card);
       backdrop-filter: blur(var(--blur));
-      box-shadow:var(--shadow); cursor:pointer; color:var(--text);
-      text-decoration:none; transition: transform .15s ease, background .15s ease;
+      box-shadow:var(--shadow); cursor:pointer; color:var(--text); text-decoration:none;
+      transition: transform .15s ease, background .15s ease;
     }
     .btn:hover{ transform: translateY(-1px); }
     .btn.primary{ background:var(--text); color:var(--bg); border-color:var(--text) }
     .btn:focus-visible{ outline:3px solid var(--accent-2); outline-offset:2px }
 
+    /* ====== HERO (no image, but depth + readability) ====== */
     .hero{
-      position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--border);
-      min-height:360px; isolation:isolate;
+      position:relative; border-radius:var(--radius); overflow:hidden;
+      border:1px solid var(--border); min-height:360px; isolation:isolate;
+      /* layered gradients for depth */
+      background:
+        radial-gradient(1200px 600px at 15% 15%, color-mix(in oklab, var(--accent) 17%, transparent), transparent 55%),
+        radial-gradient(900px 420px at 85% 35%, color-mix(in oklab, var(--accent-2) 18%, transparent), transparent 60%),
+        linear-gradient(180deg, var(--hero-grad-1), var(--hero-grad-2));
     }
-    .hero::before{
-      content:''; position:absolute; inset:0;
-      /* High-DPI hero: browsers will pick the best candidate if present */
-      background-image: image-set(
-        url('heropic.avif') type('image/avif') 1x,
-        url('heropic@2x.avif') type('image/avif') 2x,
-        url('heropic.webp') type('image/webp') 1x,
-        url('heropic@2x.webp') type('image/webp') 2x,
-        url('heropic.jpg') 1x,
-        url('heropic@2x.jpg') 2x
-      );
-      background-position: center;
-      background-size: cover;
-      /* Slight lift so it's not murky; final contrast comes from overlay */
-      filter: brightness(0.98) saturate(1.02);
-    }
+    /* subtle vignette for focus */
     .hero::after{
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(180deg, var(--hero-overlay), transparent 45%, var(--hero-overlay));
-      mix-blend:normal;
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(120% 100% at 50% 10%, transparent 40%, var(--hero-vignette) 100%);
+      mix-blend:multiply; pointer-events:none;
     }
+    /* tiny noise for texture (SVG data URI, super light) */
+    .hero::before{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background-image: url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'>\
+          <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter>\
+          <rect width='100%' height='100%' filter='url(#n)' opacity='0.35'/>\
+        </svg>");
+      opacity: var(--noise-opacity);
+    }
+
     .hero .inner{
       position:relative; z-index:1;
       display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center; padding:28px;
     }
-    h1{font-size:clamp(28px,4vw,44px); line-height:1.1; margin:8px 0 10px; color:var(--text); text-shadow:none;}
-    .hero p{color:var(--text); text-shadow:none;}
-
-    /* slight readability boost only in dark theme */
-    [data-theme="dark"] .hero h1,
-    [data-theme="dark"] .hero p{
-      text-shadow: 0 2px 12px rgba(0,0,0,.45);
+    /* the glass behind hero text = readability always */
+    .glass{
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px 18px 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.12);
+      max-width:720px;
     }
 
-    .pill{
-      border:1px solid var(--border); padding:2px 10px; border-radius:999px; font-size:12px;
-      color:var(--muted); background:color-mix(in oklab, var(--bg) 80%, transparent)
-    }
+    h1{font-size:clamp(28px,4vw,44px); line-height:1.1; margin:8px 0 10px; color:var(--text);}
+    .sub{color:var(--muted); margin:0 0 4px 0; font-size:14px}
+    .hero p{color:var(--text); margin-top:8px}
 
-    /* Selected Work: 2 rows, 2 columns */
+    /* ====== WORK ====== */
     #work .grid{ display:grid; grid-template-columns:repeat(2, minmax(260px,1fr)); gap:16px; }
     @media (max-width: 720px){ #work .grid{ grid-template-columns:1fr; } }
 
     .card{
-      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px;
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px;
       box-shadow:var(--shadow); transition: transform .25s ease, box-shadow .25s ease, opacity .4s ease;
       opacity:0; transform: translateY(8px);
-      backdrop-filter: blur(var(--blur));
+      backdrop-filter: blur(8px);
     }
     .card.revealed{ opacity:1; transform: translateY(0); }
     .card:hover{ transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.12); }
-    .card img{ width:100%; border-radius:10px; border:1px solid var(--border) }
+    .cover{
+      width:100%; aspect-ratio: 16 / 9; object-fit:cover; border-radius:10px; border:1px solid var(--border);
+      transition: transform .35s ease;
+    }
+    .card:hover .cover{ transform: scale(1.02); }
     .card h3{ margin:10px 0 6px }
 
     .divider{ height:1px; margin:28px 0; background: linear-gradient(90deg, transparent, var(--border), transparent); }
@@ -150,7 +150,7 @@
     .dot{
       width:28px; height:28px; border-radius:999px; border:1px solid var(--border); cursor:pointer;
       display:inline-flex; align-items:center; justify-content:center; font-size:14px; background:var(--card);
-      backdrop-filter: blur(var(--blur));
+      backdrop-filter: blur(8px);
     }
     .dot[aria-pressed="true"]{ outline:2px solid var(--accent-2) }
 
@@ -162,7 +162,7 @@
       background: var(--card); color: var(--text); border:1px solid var(--border);
       padding:10px 14px; border-radius:999px; box-shadow:var(--shadow);
       opacity:0; pointer-events:none; transition: opacity .2s ease, transform .2s ease;
-      backdrop-filter: blur(var(--blur)); z-index:200;
+      backdrop-filter: blur(8px); z-index:200;
     }
     #toast.show{ opacity:1; transform: translateX(-50%) translateY(0) }
 
@@ -173,11 +173,10 @@
     }
   </style>
 
-  <!-- Explicitly set theme on first visit; persist thereafter -->
+  <!-- Set theme on first visit; persist thereafter -->
   <script>
     (function(){
-      const key='theme';
-      const akey='accent';
+      const key='theme', akey='accent';
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       const saved = localStorage.getItem(key);
       const theme = saved ? saved : (prefersDark ? 'dark' : 'light');
@@ -190,6 +189,7 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <div id="progress" aria-hidden="true"></div>
+
   <header>
     <div class="brand"><strong>Farah Ismail</strong></div>
     <nav>
@@ -198,7 +198,7 @@
       <a href="#contact">Contact</a>
       <div class="controls" aria-label="Quick settings">
         <button id="themeToggle" class="btn" aria-pressed="false" aria-label="Toggle dark mode">🌙 Dark</button>
-        <span class="pill">Accent:</span>
+        <span class="pill" style="border:1px solid var(--border); padding:2px 10px; border-radius:999px; font-size:12px; color:var(--muted); background:color-mix(in oklab, var(--bg) 80%, transparent)">Accent:</span>
         <button class="dot" data-accent="blue" aria-pressed="true" title="Blue">●</button>
         <button class="dot" data-accent="purple" aria-pressed="false" title="Purple">●</button>
         <button class="dot" data-accent="teal" aria-pressed="false" title="Teal">●</button>
@@ -209,8 +209,8 @@
   <main id="main">
     <section class="hero" aria-label="Hero banner">
       <div class="inner">
-        <div>
-          <span class="pill">Research • Design • Writing</span>
+        <div class="glass">
+          <p class="sub">Research • Design • Writing</p>
           <h1>Hi, I’m Farah — I study minds and design stories.</h1>
           <p>Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co-Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</p>
           <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
@@ -229,31 +229,41 @@
       <div class="grid">
         <!-- Row 1: Research + Poetry & Writing -->
         <article class="card reveal">
-          <img loading="lazy" src="research.jpg" 
-               srcset="research.jpg 1x, research@2x.jpg 2x" 
+          <img class="cover" loading="lazy" decoding="async"
+               src="research.jpg"
+               srcset="research.jpg 1x, research@2x.jpg 2x"
+               sizes="(max-width: 720px) 100vw, 520px"
                alt="Research poster and slides preview">
           <h3>My Research</h3>
           <p><a href="https://www.canva.com/design/DAG0xZ-oYSo/jVPb_r8GLgvQXfkP74UW-w/view?utm_content=DAG0xZ-oYSo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaf00c801a" target="_blank" rel="noopener">Presentation Slides</a> • <a href="https://www.canva.com/design/DAGxe9EFp2M/VhQ2TEmR0fPyW9L-2RPocQ/view?utm_content=DAGxe9EFp2M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13b16c56b1" target="_blank" rel="noopener">Poster</a></p>
         </article>
+
         <article class="card reveal">
-          <img loading="lazy" src="writing.jpg" 
-               srcset="writing.jpg 1x, writing@2x.jpg 2x" 
-               alt="Poetry and writing mock cover">
+          <img class="cover" loading="lazy" decoding="async"
+               src="writing.jpg"
+               srcset="writing.jpg 1x, writing@2x.jpg 2x"
+               sizes="(max-width: 720px) 100vw, 520px"
+               alt="Poetry and writing cover">
           <h3>Poetry & Writing</h3>
           <p><a href="https://medium.com/@farah.sameh.ismail" target="_blank" rel="noopener">Visit Medium</a></p>
         </article>
 
         <!-- Row 2: Graphic Design + Photography -->
         <article class="card reveal">
-          <img loading="lazy" src="design.jpg" 
-               srcset="design.jpg 1x, design@2x.jpg 2x" 
+          <img class="cover" loading="lazy" decoding="async"
+               src="design.jpg"
+               srcset="design.jpg 1x, design@2x.jpg 2x"
+               sizes="(max-width: 720px) 100vw, 520px"
                alt="Graphic design poster sample">
           <h3>Graphic Design Portfolio</h3>
           <p><a href="https://www.canva.com/design/DAF73jJmzSQ/RVHi9BjMTPNMByjzxeR5ig/watch?utm_content=DAF73jJmzSQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6fabada764" target="_blank" rel="noopener">View Portfolio</a></p>
         </article>
+
         <article class="card reveal">
-          <img loading="lazy" src="photo.jpg" 
-               srcset="photo.jpg 1x, photo@2x.jpg 2x" 
+          <img class="cover" loading="lazy" decoding="async"
+               src="photo.jpg"
+               srcset="photo.jpg 1x, photo@2x.jpg 2x"
+               sizes="(max-width: 720px) 100vw, 520px"
                alt="Photography still">
           <h3>Photography & Videography</h3>
           <p><a href="https://www.canva.com/design/DAGzna1SgDA/R9wMqSoKuYODI9FTzeN-7A/view?utm_content=DAGzna1SgDA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hac615a020a" target="_blank" rel="noopener">View Works</a></p>
@@ -266,7 +276,10 @@
     <section id="about">
       <h2>About</h2>
       <div class="about">
-        <img class="avatar" src="avatar.jpg" alt="Farah profile photo">
+        <img class="avatar" src="avatar.jpg"
+             srcset="avatar.jpg 1x, avatar@2x.jpg 2x"
+             sizes="120px"
+             alt="Farah profile photo">
         <p>I’m a third-year Psychology & CCIT student at the University of Toronto Mississauga. I split my free time between research (ChiLD Lab), creative design (UTMMSA), teaching Arabic as a second language to my kindergarten class, and writing. I love turning messy ideas into clean visuals and building simple tools that help students feel calm, capable, and creative!</p>
       </div>
     </section>
@@ -364,12 +377,8 @@
     function copyText(txt){
       navigator.clipboard.writeText(txt).then(()=>showToast('Copied to clipboard'));
     }
-    document.getElementById('copyEmail').addEventListener('click',()=>{
-      copyText('farah.sameh.ismail@gmail.com');
-    });
-    document.getElementById('copyPhone').addEventListener('click',()=>{
-      copyText('+1 647-271-6147');
-    });
+    document.getElementById('copyEmail').addEventListener('click',()=>copyText('farah.sameh.ismail@gmail.com'));
+    document.getElementById('copyPhone').addEventListener('click',()=>copyText('+1 647-271-6147'));
   })();
 </script>
 
