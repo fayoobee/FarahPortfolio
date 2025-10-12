@@ -17,17 +17,18 @@
   <meta name="twitter:title" content="Farah Ismail — Portfolio">
   <meta name="twitter:description" content="Research • Design • Writing">
   <meta name="twitter:image" content="heropic.jpg">
-  <!-- Preload hero for faster paint -->
-  <link rel="preload" as="image" href="heropic.jpg" imagesrcset="heropic.jpg 1200w" imagesizes="100vw">
+  <!-- Preload a hero fallback (browser will still choose better via image-set if available) -->
+  <link rel="preload" as="image" href="heropic.jpg" imagesrcset="heropic.jpg 1x, heropic@2x.jpg 2x" imagesizes="100vw">
+
   <style>
-    /* ====== THEME PALETTES (swapped previously) ====== */
+    /* ====== THEME PALETTES ====== */
     :root{
       /* Dark palette (default) */
       --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:rgba(17,24,35,.6);
       --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --radius:14px;
       --shadow:none;
-      /* LIGHTER OVERLAY: white tint */
-      --hero-overlay: color-mix(in oklab, #fff 35%, transparent);
+      /* HERO OVERLAY: dark tint for dark theme to keep text readable */
+      --hero-overlay: color-mix(in oklab, #000 36%, transparent);
       --blur: 8px;
     }
     [data-theme="light"]{
@@ -35,8 +36,8 @@
       --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.75);
       --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb;
       --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
-      /* LIGHTER OVERLAY (stronger white for light mode) */
-      --hero-overlay: color-mix(in oklab, #fff 45%, transparent);
+      /* HERO OVERLAY: soft white lift so photo looks airy in light mode */
+      --hero-overlay: color-mix(in oklab, #fff 38%, transparent);
       --blur: 10px;
     }
 
@@ -82,13 +83,22 @@
     }
     .hero::before{
       content:''; position:absolute; inset:0;
-      background:url('heropic.jpg') center/cover no-repeat;
-      /* BRIGHTER IMAGE: removes darkness */
-      filter: brightness(1.05) saturate(1.05);
+      /* High-DPI hero: browsers will pick the best candidate if present */
+      background-image: image-set(
+        url('heropic.avif') type('image/avif') 1x,
+        url('heropic@2x.avif') type('image/avif') 2x,
+        url('heropic.webp') type('image/webp') 1x,
+        url('heropic@2x.webp') type('image/webp') 2x,
+        url('heropic.jpg') 1x,
+        url('heropic@2x.jpg') 2x
+      );
+      background-position: center;
+      background-size: cover;
+      /* Slight lift so it's not murky; final contrast comes from overlay */
+      filter: brightness(0.98) saturate(1.02);
     }
     .hero::after{
       content:''; position:absolute; inset:0;
-      /* WHITE OVERLAY for airy look */
       background:linear-gradient(180deg, var(--hero-overlay), transparent 45%, var(--hero-overlay));
       mix-blend:normal;
     }
@@ -96,9 +106,15 @@
       position:relative; z-index:1;
       display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center; padding:28px;
     }
-    /* Remove heavy text-shadows for crisp type */
     h1{font-size:clamp(28px,4vw,44px); line-height:1.1; margin:8px 0 10px; color:var(--text); text-shadow:none;}
     .hero p{color:var(--text); text-shadow:none;}
+
+    /* slight readability boost only in dark theme */
+    [data-theme="dark"] .hero h1,
+    [data-theme="dark"] .hero p{
+      text-shadow: 0 2px 12px rgba(0,0,0,.45);
+    }
+
     .pill{
       border:1px solid var(--border); padding:2px 10px; border-radius:999px; font-size:12px;
       color:var(--muted); background:color-mix(in oklab, var(--bg) 80%, transparent)
@@ -213,24 +229,32 @@
       <div class="grid">
         <!-- Row 1: Research + Poetry & Writing -->
         <article class="card reveal">
-          <img loading="lazy" src="research.jpg" alt="Research poster and slides preview">
+          <img loading="lazy" src="research.jpg" 
+               srcset="research.jpg 1x, research@2x.jpg 2x" 
+               alt="Research poster and slides preview">
           <h3>My Research</h3>
           <p><a href="https://www.canva.com/design/DAG0xZ-oYSo/jVPb_r8GLgvQXfkP74UW-w/view?utm_content=DAG0xZ-oYSo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hcaf00c801a" target="_blank" rel="noopener">Presentation Slides</a> • <a href="https://www.canva.com/design/DAGxe9EFp2M/VhQ2TEmR0fPyW9L-2RPocQ/view?utm_content=DAGxe9EFp2M&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h13b16c56b1" target="_blank" rel="noopener">Poster</a></p>
         </article>
         <article class="card reveal">
-          <img loading="lazy" src="writing.jpg" alt="Poetry and writing mock cover">
+          <img loading="lazy" src="writing.jpg" 
+               srcset="writing.jpg 1x, writing@2x.jpg 2x" 
+               alt="Poetry and writing mock cover">
           <h3>Poetry & Writing</h3>
           <p><a href="https://medium.com/@farah.sameh.ismail" target="_blank" rel="noopener">Visit Medium</a></p>
         </article>
 
         <!-- Row 2: Graphic Design + Photography -->
         <article class="card reveal">
-          <img loading="lazy" src="design.jpg" alt="Graphic design poster sample">
+          <img loading="lazy" src="design.jpg" 
+               srcset="design.jpg 1x, design@2x.jpg 2x" 
+               alt="Graphic design poster sample">
           <h3>Graphic Design Portfolio</h3>
           <p><a href="https://www.canva.com/design/DAF73jJmzSQ/RVHi9BjMTPNMByjzxeR5ig/watch?utm_content=DAF73jJmzSQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6fabada764" target="_blank" rel="noopener">View Portfolio</a></p>
         </article>
         <article class="card reveal">
-          <img loading="lazy" src="photo.jpg" alt="Photography still">
+          <img loading="lazy" src="photo.jpg" 
+               srcset="photo.jpg 1x, photo@2x.jpg 2x" 
+               alt="Photography still">
           <h3>Photography & Videography</h3>
           <p><a href="https://www.canva.com/design/DAGzna1SgDA/R9wMqSoKuYODI9FTzeN-7A/view?utm_content=DAGzna1SgDA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hac615a020a" target="_blank" rel="noopener">View Works</a></p>
         </article>
