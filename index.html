@@ -93,6 +93,17 @@
       color:var(--muted); background:color-mix(in oklab, var(--bg) 80%, transparent)
     }
 
+    /* >>> HERO TEXT HIGHLIGHT (added) <<< */
+    .highlight{
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      padding: .1em .4em;
+      border-radius: .55rem;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      outline: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+      backdrop-filter: blur(2px);
+    }
+
     /* ==== Selected Work layout: 2 rows, 2 columns (fixed pairing) ==== */
     #work .grid{ display:grid; grid-template-columns:repeat(2, minmax(260px,1fr)); gap:16px; }
     @media (max-width: 720px){ #work .grid{ grid-template-columns:1fr; } }
@@ -196,8 +207,8 @@
       <div class="inner">
         <div>
           <span class="pill">Research • Design • Writing</span>
-          <h1>Hi, I’m Farah — I study minds and design stories.</h1>
-          <p>Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co-Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</p>
+          <h1><span class="highlight">Hi, I’m Farah — I study minds and design stories.</span></h1>
+          <p><span class="highlight">Psychology & CCIT @ UTM. Research Assistant at ChiLD Lab and Marketing Co-Director @ UTMMSA. I build clear research visuals, thoughtful interfaces, and creative media.</span></p>
           <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
             <a class="btn primary" href="#work">See my work</a>
             <a class="btn" href="FARAH ISMAIL RESUME GENERAL.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
