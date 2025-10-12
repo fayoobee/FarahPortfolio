@@ -20,22 +20,28 @@
   <!-- Preload hero for faster paint -->
   <link rel="preload" as="image" href="heropic.jpg" imagesrcset="heropic.jpg 1200w" imagesizes="100vw">
   <style>
+    /* ====== THEME PALETTES (SWAPPED) ======
+       Default (:root) now mirrors the old DARK palette.
+       We explicitly set data-theme="light" or "dark" via JS on first load. */
+
     :root{
-      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.75);
-      --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb; --radius:14px;
-      --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
-      /* stronger overlay in light mode */
-      --hero-overlay: color-mix(in oklab, #000 40%, transparent);
-      --blur: 10px;
-    }
-    [data-theme="dark"]{
+      /* Dark palette (default) */
       --bg:#0b0f14; --text:#e7eef7; --muted:#a6b3c2; --card:rgba(17,24,35,.6);
-      --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --shadow:none;
-      /* even stronger overlay in dark mode */
-      --hero-overlay: color-mix(in oklab, #000 60%, transparent);
+      --accent:#8ab4ff; --accent-2:#68e3ba; --border:#1b2430; --radius:14px;
+      --shadow:none;
+      --hero-overlay: color-mix(in oklab, #000 48%, transparent); /* softer than before */
       --blur: 8px;
     }
-    /* Accent variants */
+    [data-theme="light"]{
+      /* Light palette (used to be the default) */
+      --bg:#ffffff; --text:#0b0f14; --muted:#5b6673; --card:rgba(246,248,250,.75);
+      --accent:#6b7cff; --accent-2:#59d0a0; --border:#e6e8eb;
+      --shadow:0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08);
+      --hero-overlay: color-mix(in oklab, #000 30%, transparent); /* lighter overlay */
+      --blur: 10px;
+    }
+
+    /* Accent variants (unchanged) */
     [data-accent="blue"]{ --accent:#6b7cff; --accent-2:#59d0a0; }
     [data-accent="purple"]{ --accent:#a779ff; --accent-2:#ff8ac7; }
     [data-accent="teal"]{ --accent:#2ec4b6; --accent-2:#6ee7b7; }
@@ -78,8 +84,8 @@
     .hero::before{
       content:''; position:absolute; inset:0;
       background:url('heropic.jpg') center/cover no-repeat;
-      /* darker image = lower transparency */
-      filter:brightness(.6);
+      /* lighter than before so it’s not too dark */
+      filter:brightness(.75);
     }
     .hero::after{
       content:''; position:absolute; inset:0;
@@ -150,19 +156,16 @@
     }
   </style>
 
-  <!-- Prefer system theme on first visit; then persist user choice. -->
+  <!-- Explicitly set theme on first visit; persist thereafter -->
   <script>
     (function(){
-      var key='theme';
-      if(!localStorage.getItem(key)){
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if(prefersDark) document.documentElement.setAttribute('data-theme','dark');
-      } else {
-        var saved = localStorage.getItem(key);
-        if(saved && saved!=='system') document.documentElement.setAttribute('data-theme', saved);
-      }
-      // Accent preference
-      var akey='accent', savedAccent=localStorage.getItem(akey) || 'blue';
+      const key='theme';
+      const akey='accent';
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const saved = localStorage.getItem(key);
+      const theme = saved ? saved : (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      const savedAccent = localStorage.getItem(akey) || 'blue';
       document.documentElement.setAttribute('data-accent', savedAccent);
     })();
   </script>
@@ -287,7 +290,7 @@
       btn.setAttribute('aria-pressed', dark);
     }
     btn.addEventListener('click',()=>{
-      const cur=html.getAttribute('data-theme')|| (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light');
+      const cur=html.getAttribute('data-theme') || 'light';
       const next=cur==='dark'?'light':'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem(key,next);
